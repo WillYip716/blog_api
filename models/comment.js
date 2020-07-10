@@ -6,7 +6,7 @@ var CommentSchema = new Schema(
         content: {type:String, required:true },
         author: {type:String, required:true },
         timestamp: { type: Date, default: Date.now() },
-        post: [{ type: Schema.Types.ObjectId, ref: "Post" }]
+        post: { type: Schema.Types.ObjectId, ref: "Post" }
     }
 );
 
