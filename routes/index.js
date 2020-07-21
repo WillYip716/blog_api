@@ -11,6 +11,9 @@ router.get('/posts', api_controller.post_list);
 // Get single blog post
 router.get('/posts/:id', api_controller.single_post);
 
+// Get single blog post
+router.get('/posts/:id/comments', api_controller.post_comments);
+
 // Create blog post
 router.post('/posts/create',verifyToken,api_controller.create_post);
 

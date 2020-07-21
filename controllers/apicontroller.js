@@ -1,7 +1,6 @@
 
 var Post = require('../models/post');
 var Comment = require('../models/comment');
-var async = require('async');
 
 exports.post_list = function(req,res,next){
 
@@ -15,18 +14,25 @@ exports.post_list = function(req,res,next){
 
 exports.single_post = function(req,res,next){
 
-    async.parallel({
-        post: function(callback){
-            Post.findById(req.params.id).exec(callback);
-        },
-        comments: function(callback){
-            Comment.find({ post: req.params.id }).exec(callback);
-        },
-    }, function(err,results){
-        if (err) { return next(err); }
-            res.json(results);
-    });
+    Post.findById(req.params.id).exec(
+        function(err,result){
+            if(err){return next(err);}
+            res.json(result);
+        }
+    );
 };
+
+exports.post_comments = function(req,res,next){
+    Comment.find({ post: req.params.id }).exec(
+        function(err,result){
+            if(err){return next(err);}
+            res.json(result);
+        }
+    );
+};
+
+
+
 
 exports.create_post = function(req,res,next){
 
@@ -40,7 +46,7 @@ exports.create_post = function(req,res,next){
         if (err) {
           return next(err);
         }
-        res.sendStatus(200);
+        res.status(200).json(post);
     });
 };
 
@@ -56,7 +62,7 @@ exports.create_comment = function(req,res,next){
         if (err) {
           return next(err);
         }
-        res.sendStatus(200);
+        res.status(200).json(comment);
     });
 };
 
