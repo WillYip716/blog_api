@@ -42,11 +42,11 @@ exports.create_post = function(req,res,next){
         author: req.body.id,
         timestamp: Date.now(),
         published: false
-    }).save((err) => {
+    }).save(function(err, savedpost) {
         if (err) {
-          return next(err);
+            return next(err);
         }
-        res.status(200).json(post);
+        res.status(200).json(savedpost);
     });
 };
 
@@ -58,11 +58,11 @@ exports.create_comment = function(req,res,next){
         author: req.body.author,
         timestamp: Date.now(),
         post: req.params.id
-    }).save((err) => {
+    }).save(function(err, savedcomment) {
         if (err) {
-          return next(err);
+            return next(err);
         }
-        res.status(200).json(comment);
+        res.status(200).json(savedcomment);
     });
 };
 
