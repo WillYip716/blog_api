@@ -40,8 +40,8 @@ router.post("/login", async (req, res) => {
   if (req.body.password!=user.password) return res.sendStatus(400);
 
   const token = jwt.sign({ _id: user._id }, process.env.SECRET);
-  res.status(200).send({ token })
-  res.redirect(req.get("referer"));
+  res.status(200).send({ token });
+
 
 });
 

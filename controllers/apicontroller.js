@@ -77,6 +77,7 @@ exports.update_post = function(req,res,next){
         }
         result.title = req.body.title;
         result.article = req.body.content;
+        result.timestamp = Date.now();
 
         result.save(function(err1) {
             if(err1){return next(err);}
