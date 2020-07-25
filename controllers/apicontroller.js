@@ -94,7 +94,7 @@ exports.publish_post = function(req,res,next){
         if (result==null) { // No results.
             return res.status(401).json({ error: 'Blog post not found' });
         }
-        result.published = true;
+        result.published = !result.published;
 
         result.save(function(err1) {
             if(err1){return next(err);}
@@ -108,8 +108,9 @@ exports.delete_post = function(req,res,next){
     Comment.deleteMany({ post: req.params.id }).exec(function(err){
         if (err) { return next(err); }
         Post.findByIdAndRemove(req.params.id,function(err1){
-            if (err1) { return res.json(err); }
+            if (err1) { return res.json(err1); }
             return res.json({ msg: 'Blog deleted' })
         })
     });
 };
+

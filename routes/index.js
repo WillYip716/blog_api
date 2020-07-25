@@ -30,8 +30,6 @@ router.delete('/posts/:id/delete', verifyToken, api_controller.delete_post);
 router.post('/posts/:id/comment', api_controller.create_comment);
 
 router.post("/login", async (req, res) => {
-  console.log("passed name is: " + req.body.username);
-  console.log("passed pw is: " + req.body.password);
   const user = await User.findOne({ name: req.body.username });
   if (!user)
     return res.status(400).send("Username and/or password is incorrect");
@@ -39,8 +37,10 @@ router.post("/login", async (req, res) => {
   //const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (req.body.password!=user.password) return res.sendStatus(400);
 
+
   const token = jwt.sign({ _id: user._id }, process.env.SECRET);
-  res.status(200).send({ token });
+  const userid = user._id;
+  res.status(200).send({ userid, token });
 
 
 });
